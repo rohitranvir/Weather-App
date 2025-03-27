@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>weather App</title>
+  </head>
+  <body>
+    <div class="card">
+      <div class="search">
+        <input type="text" placeholder="Enter a city name" spellcheck="false" />
+        <button><img src="images/search.png" /></button>
+      </div>
+      <div class="weather">
+        <img src="images/rain.png" class="weather-icon" />
+        <h1 class="temp">55°c</h1>
+        <h2 class="city">New York</h2>
+        <div class="details">
+          <div class="col">
+            <img src="images/humadity.png" alt="" />
+            <div>
+              <p class="humadity">50%</p>
+              <p>humadity</p>
+            </div>
+          </div>
+          <div class="col">
+            <img src="images/wind.png" alt="" />
+            <div>
+              <p class="wind">15 Km/h</p>
+              <p>wind Speed</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      const apikey = "4e0f65a2b6bd32fe1a1228862df76340";
+      const apiurl =
+        "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
+
+      const searchBox = document.querySelector(".search input");
+      const searchBtn = document.querySelector(".search button");
+      async function checkWeather(city) {
+        const resposnse = await fetch(apiurl + city + `&appid=${apikey}`);
+        var data = await resposnse.json();
+        console.log(data);
+        document.querySelector(".city").innerHTML = data.name;
+        document.querySelector(".temp").innerHTML =
+          Math.round(data.main.temp) + "°c";
+        document.querySelector(".humadity").innerHTML =
+          data.main.humidity + "%";
+        document.querySelector(".wind").innerHTML = data.wind.speed + " km/h";
+      }
+      searchBtn.addEventListener("click", () => {
+        checkWeather(searchBox.value);
+      });
+    </script>
+  </body>
+</html>
